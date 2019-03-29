@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>終極密碼</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="text-center">
+            <h1>終極密碼</h1>
+            <h3><span id="min">0</span>~<span id="max">100</span></h3>
+            <input type="text" class="form-control border-0 text-center bg-white" id="input" disabled>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row text-center my-2">
+            <div class="col"><button type="button" class="btn-block btn btn-light input-pad">1</button></div>
+            <div class="col"><button type="button" class="btn-block btn btn-light input-pad">2</button></div>
+            <div class="col"><button type="button" class="btn-block btn btn-light input-pad">3</button></div>
+        </div>
+        <div class="row text-center my-2">
+            <div class="col"><button type="button" class="btn-block btn btn-light input-pad">4</button></div>
+            <div class="col"><button type="button" class="btn-block btn btn-light input-pad">5</button></div>
+            <div class="col"><button type="button" class="btn-block btn btn-light input-pad">6</button></div>
+        </div>
+        <div class="row text-center my-2">
+            <div class="col"><button type="button" class="btn-block btn btn-light input-pad">7</button></div>
+            <div class="col"><button type="button" class="btn-block btn btn-light input-pad">8</button></div>
+            <div class="col"><button type="button" class="btn-block btn btn-light input-pad">9</button></div>
+        </div>
+        <div class="row text-center my-2">
+            <div class="col"><button type="button" class="btn-block btn btn-danger" onclick="doClear()">取消</button></div>
+            <div class="col"><button type="button" class="btn-block btn btn-light input-pad">0</button></div>
+            <div class="col"><button type="button" class="btn-block btn btn-primary" id="enter" onclick="doGuess()">送出</button></div>
+        </div>
+    </div>
+
+    
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script>
+        var ans="";
+        var inputButtons = document.getElementsByClassName("input-pad");
+        function start(){
+            var max = document.getElementById("max");
+            var min = document.getElementById("min");
+            max.innerHTML = 100;
+            min.innerHTML = 0;
+            doClear();
+            var number = Math.floor(Math.random() * 100);
+            console.log(number);
+            ans = number;
+        }
+        
+
+        function inputButton() {
+            var input = document.getElementById("input");
+            var text = this.innerHTML;
+            if (input.value.length < 2) {
+                input.value += text;
+            }
+        }        
+        for (var i = 0; i < inputButtons.length; i++) {
+            inputButtons[i].onclick = inputButton;
+        }
+
+        function doClear(){
+            var input = document.getElementById("input");
+            input.value = "";
+        }
+        function doGuess(){
+            var input = document.getElementById("input");
+            if (input.value.length == 0) {
+                alert("沒有輸入數字!");
+                return;
+            }
+            check();
+        }
+        function check(){
+            var input = document.getElementById("input");
+            var max = document.getElementById("max");
+            var min = document.getElementById("min");
+            if (ans > input.value) {
+                min.innerHTML = input.value;                
+                doClear();                
+            }
+            else if (ans == input.value) {                              
+                alert(ans+"恭喜答對!");
+                start();
+            }
+            else {
+                max.innerHTML = input.value;                
+                doClear();                
+            }
+        }
+        start();        
+
+    </script>
+</body>
+
+</html>
