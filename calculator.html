@@ -21,7 +21,7 @@
 <body>  
     
     <div class="border border-dark mt-2 mx-auto" style="width:300px;">
-        <input id="input" class="text-right m-1 aligh-center" style="width:290px;height:50px; font-size:16px;" />
+        <input id="input" class="text-right m-1 aligh-center" style="width:290px;height:50px; font-size:16px;" />        
         <div class="row mx-2 my-2">
             <button class="col rounded border-0 mx-1" id="clear" onclick="doClear()" type="button">AC</button>
         </div>
@@ -29,27 +29,32 @@
             <button class="col rounded border-0 mx-1 input-pad" type="button" >7</button>
             <button class="col rounded border-0 mx-1 input-pad" type="button" >8</button>
             <button class="col rounded border-0 mx-1 input-pad" type="button" >9</button>
-            <button class="col rounded border-0 mx-1 input-pad" type="button" >/</button>
+            <button class="col rounded border-0 mx-1 op input-pad" type="button" >/</button>
         </div>
         <div class="row mx-2 my-2">
             <button class="col rounded border-0 mx-1 input-pad" type="button" >4</button>
             <button class="col rounded border-0 mx-1 input-pad" type="button" >5</button>
             <button class="col rounded border-0 mx-1 input-pad" type="button" >6</button>
-            <button class="col rounded border-0 mx-1 input-pad" type="button" >*</button>
+            <button class="col rounded border-0 mx-1 op input-pad" type="button" >*</button>
         </div>
         <div class="row mx-2 my-2">
             <button class="col rounded border-0 mx-1 input-pad" type="button" >1</button>
             <button class="col rounded border-0 mx-1 input-pad" type="button" >2</button>
             <button class="col rounded border-0 mx-1 input-pad" type="button" >3</button>
-            <button class="col rounded border-0 mx-1 input-pad" type="button" >-</button>
+            <button class="col rounded border-0 mx-1 op input-pad" type="button" >-</button>
         </div>
         <div class="row mx-2 my-2">
             <button class="col rounded border-0 mx-1 input-pad" type="button" >0</button>
             <button class="col rounded border-0 mx-1 input-pad" type="button" >.</button>
             <button class="col rounded border-0 mx-1 " id="result" onclick="doCal()" type="button" >=</button>
-            <button class="col rounded border-0 mx-1 input-pad" type="button" >+</button>
+            <button class="col rounded border-0 mx-1 op input-pad" type="button" >+</button>
         </div>
-        <h1 id="a"></h1>
+        <div class="row mx-2 my-2">
+            <div class="label">
+                
+            </div>
+        </div>
+        
         
     </div>
     
@@ -65,186 +70,27 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     <script>
-        function doClear() {
-            var input = document.getElementById("input");                
-            input.value = "";                
+        var result = 0;        
+        var inputButtons = document.getElementsByClassName("input-pad");        
+        var input = document.getElementById("input");       
+        function doClear() {                            
+            input.value = "";             
+            result = 0;               
         }
-        function inputButton() {
-            var input = document.getElementById("input");
+        function inputButton() {            
             var text = this.innerHTML;
-            input.value += text;            
+            input.value+= text;              
         }
-        var inputButtons = document.getElementsByClassName("input-pad");
         for (var i = 0; i < inputButtons.length; i++) {
             inputButtons[i].onclick = inputButton;
         }
         function doCal(){
-            var result = document.getElementById("input");
-
+            result = input.value;
+            input.value = eval(result);
+            console.log(result);
         }
 
-
-            var input = document.getElementById("input");
-            var sid = document.getElementById("s");
-            var Btn = document.getElementsByClassName("num");
-            for (var i = 0; i < Btn.length; i++) {
-                Btn[i].onclick = getNum;
-            }
-            var Operation = document.getElementsByClassName("Operation");
-            for (var i = 0; i < Operation.length; i++) {
-                Operation[i].onclick = doOperation;
-            }
-
-            var c = document.getElementById("clear");
-            c.onclick = doClear;
-            document.getElementById("N-value").onclick = donValue;
-            document.getElementById("pot").onclick = doPot;
-            document.getElementById("percent").onclick = doPercent;
-            var s = [];
-            function doOperation() {
-                if (input.value == "") {
-                    if (isNaN(s[s.length - 1]) && s.length >= 2) {
-                        s[s.length - 1] = this.value;
-                        sid.innerText = s.join(" ");
-                    }
-                    return;
-                }
-                if (!isNaN(s[s.length - 1])) {
-                    return;
-                }
-                // s+=input.value+this.innerText;
-                s[s.length] = input.value;
-                s[s.length] = this.value;
-                input.value = "";
-                sid.innerText = s.join(" ");
-            };
-            // document.getElementById("check").onclick = doCheck;
-            // document.getElementById("restart").onclick = doStart;
-            function getNum() {
-                // input.innerText += this.innerText;
-                if (input.value == "0") {
-                    input.value = "";
-                }
-                if (input.value.replace("-", "").replace(".", "").length == 9) {
-                    return;
-                }
-                input.value += this.value;
-                c.innerHTML = "<h4>C</h4>";
-                c.value = "C";
-            };
-            
-            function donValue() {
-                if (input.value == "") {
-                    return;
-                }
-                input.value = parseFloat(input.value) * -1;
-                if (isNaN(input.value)) {
-                    input.value = "錯誤";
-                }
-            };
-            function doPot() {
-                if (input.value.indexOf(".") != -1 || input.value == "") {
-                    return;
-                }
-                input.value += ".";
-            };
-            function doPercent() {
-                if (input.value == "") {
-                    return;
-                }
-                input.value = parseFloat(input.value) / 100;
-                if (isNaN(input.value)) {
-                    input.value = "錯誤";
-                }
-            };
-
-            document.getElementById("equal").onclick = doEqual;
-            function doEqual() {
-                if (s.length == 0) {
-                    return;
-                }
-                if (isNaN(s[s.length - 1])) {
-                    if (input.value == "") {
-                        s.pop();
-                    }
-                    else {
-                        s[s.length] = input.value;
-                    }
-                }
-                if (isNaN(getAns(s))) {
-                    input.value = "錯誤";
-                    sid.innerText = "錯誤";
-                }
-                else {
-                    input.value = getAns(s);
-                    sid.innerText = getAns(s);
-                }
-                // alert(s);
-                s = [];
-                // var test = "1+2+9/3*3+2*1";
-                // var test = ["1","+","2","+","9","/","3","*","3","+","2","*","1"];
-                // sid.innerText = test.join(" ");
-                // alert(getAns(test));
-            };
-            function getAns(source) {
-                if (!isNaN(source)) {
-                    return source;
-                }
-                if (source.indexOf("*") != -1 || source.indexOf("/") != -1) {
-                    for (var i = 0; i < source.length; i++) {
-                        var Nindex = 0;
-                        var bol = false;
-                        if (source[i] == "*") {
-                            Nindex = source[i - 1] * source[i + 1];
-                            bol = true;
-                        }
-                        if (source[i] == "/") {
-                            Nindex = source[i - 1] / source[i + 1];
-                            bol = true;
-                        }
-                        if (bol) {
-                            var new_s = [];
-                            for (var j = 0; j < i - 1; j++) {
-                                new_s[new_s.length] = source[j];
-                            }
-                            new_s[new_s.length] = Nindex;
-                            if (i + 2 <= source.length - 1) {
-                                for (var j = i + 2; j < source.length; j++) {
-                                    new_s[new_s.length] = source[j];
-                                }
-                            }
-                            return getAns(new_s);
-                        }
-                    }
-                }
-                if (source.indexOf("+") != -1 || source.indexOf("-") != -1) {
-                    for (var i = 0; i < source.length; i++) {
-                        var Nindex = 0;
-                        var bol = false;
-                        if (source[i] == "+") {
-                            Nindex = (source[i - 1] - 0) + (source[i + 1] - 0);
-                            bol = true;
-                        }
-                        if (source[i] == "-") {
-                            Nindex = (source[i - 1] - 0) - (source[i + 1] - 0);
-                            bol = true;
-                        }
-                        if (bol) {
-                            var new_s = [];
-                            for (var j = 0; j < i - 1; j++) {
-                                new_s[new_s.length] = source[j];
-                            }
-                            new_s[new_s.length] = Nindex;
-                            if (i + 2 <= source.length - 1) {
-                                for (var j = i + 2; j < source.length; j++) {
-                                    new_s[new_s.length] = source[j];
-                                }
-                            }
-                            return getAns(new_s);
-                        }
-                    }
-                }
-            };
+                  
     </script>
 </body>
 
