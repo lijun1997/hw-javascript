@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Hackathon</title>
+    <style>
+        .img-responsive{
+            border: none;
+            transition: all .3s;
+        }
+        .active{
+            border: solid 5px red;
+            box-shadow: 0 0 20px red;
+            transition: all 0s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-between mt-4">            
+            <img id="i1" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+            <img id="i2" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+            <img id="i3" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+            <img id="i4" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+            <img id="i5" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+            <img id="i6" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+            <img id="i7" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive "> 
+            <img id="i8" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+        </div>
+        <div class="d-flex justify-content-between mt-4">
+            <img id="i26" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+            <img id="i9" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">        
+        </div>
+        <div class="d-flex justify-content-between mt-4">
+            <img id="i25" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+            <img id="i10" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+        </div>
+        <div class="d-flex justify-content-between mt-4">
+            <img id="i24" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+            <img id="i11" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+        </div>
+        <div class="d-flex justify-content-between mt-4">
+            <img id="i23" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+            <img id="i12" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+        </div>
+        <div class="d-flex justify-content-between mt-4">
+            <img id="i22" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+            <img id="i13" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+        </div>
+        <div class="d-flex justify-content-between mt-4">
+            <img id="i21" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+            <img id="i20" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+            <img id="i19" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+            <img id="i18" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+            <img id="i17" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+            <img id="i16" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+            <img id="i15" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+            <img id="i14" src="https://fakeimg.pl/100x100/?font=lobster" alt="" class="img-responsive ">
+        </div>
+        <div class="row mt-5">            
+            <button id="go" type="button" class="btn btn-danger btn-lg btn-block">GO!</button>
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script>
+        var arr = [];
+        var currentBrick = 0;
+        var forwardSteps = 0;
+
+        function abc(){
+            var n = 0;
+            while(true){
+                n++;
+                var brick = document.getElementById("i"+n);
+                if(!brick){
+                    break;
+                }
+                arr.push(brick);
+            }           
+            
+            document.getElementById("go").onclick = function(){
+                forwardSteps = (arr.length * 3);
+                forwardSteps += Math.floor(Math.random() * arr.length);  
+                console.log(forwardSteps);              
+
+                setTimeout(forwardBrick, 50)
+                //forwardBrick();
+            }
+        }        
+        function forwardBrick(){
+            arr[currentBrick].className = arr[currentBrick].className.replace("active","");
+            currentBrick++;
+           
+            
+            if(currentBrick >= arr.length){
+                currentBrick = 0; //run again
+            }            
+
+            arr[currentBrick].className += " active";
+            
+            console.log(forwardSteps);
+            if(forwardSteps > 0){
+                forwardSteps--;
+                setTimeout(forwardBrick,50);
+            }           
+
+        }
+        abc();
+    </script>
+</body>
+
+</html>
