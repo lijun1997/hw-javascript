@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>poker</title>
+    <style>
+        #game{
+            display: flex;            
+        }
+        .card {
+            background: url(images/poker.jpg)no-repeat;
+            background-size: 100%;
+            width: 150px;
+            height: 210px;           
+            margin: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container" id="game">        
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        var ran=[];
+        var $game = $('#game');
+        var count=0;
+        var cardlist={
+            0: 'url(images/clubK.jpg)',
+            1: 'url(images/clubK.jpg)',
+            2: 'url(images/diamondQ.png)',
+            3: 'url(images/diamondQ.png)',
+            4: 'url(images/spadeJ.jpg)',
+            5: 'url(images/spadeJ.jpg)',            
+        };
+
+        
+        for(var i=0;i<6;i++){
+            var $div=$('<div></div>');
+            $div.addClass('card')            
+            .appendTo("#game");            
+        }
+
+        function getRan(){
+            while(ran.length < 6){
+                var random = Math.floor(Math.random()*6);
+                if(ran.indexOf(random) == -1){
+                    ran.push(random);
+                }
+            }
+        }
+        getRan();
+        console.log(ran);
+
+        $game.on('click','.card',function(){
+            start();
+        });
+
+        function start(){
+            var $this = $(this);
+            if ($this.css('background-image') == 'none') {
+                return;
+            }
+            var $index = $('#game div').index($this);
+
+            if ($index == valueIndex) {
+                return;
+            }
+            count++;
+            if (count > 2) {
+                return;
+            }
+            $this.css({'background-image': cardlist[ran[$index]] });
+            if (count == 1) {
+                valueIndex = $index;
+                return;
+            }
+            var setT = setTimeout(function () {
+                var thisBackground = $this.css('background-image');
+                var valueBackground = $('#game div').eq(valueIndex).css('background-image');
+                if (thisBackground == valueBackground) {
+                    $this.css('background-image', 'none');
+                    $('#cardList div').eq(valueIndex).css('background-image', 'none');
+                }
+
+                cleanAndJudgeEnd();
+                clickCount = 0;
+                valueIndex = null;
+            }, 800);
+
+        }
+
+        function cleanAndJudgeEnd() {
+                var $card = $('.card');
+
+                for (var i = 0; i < $card.length; i++) {
+
+                    if ($($card[i]).css('background-image') != "none") {
+                        $($card[i]).css({
+                            "background-image": "url('./images/card.png')"
+                        });
+                    }
+                }
+                for (var i = 0; i < $card.length; i++) {
+                    if ($($card[i]).css('background-image') != "none") {
+                        return;
+                    }
+                }
+                alert("過關囉,即將開始新遊戲");
+                restart();
+            }
+
+            function restart() {
+                $('.card').css('background-image', "url('images/card.png')");
+                ran = [];
+                count = 0;
+                valueIndex = null;
+                getRan();
+            }
+
+
+    </script>
+</body>
+
+</html>

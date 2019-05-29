@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>memory</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+</head>
+<body>
+    <div class="container" id="game">
+
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        var $game=$('#game');
+        for (var i = 0; i < 6; i++) {
+                var $div = $('<div></div>');
+                $div.addClass('card')
+                    .css({
+                        'background-image': "url('images/poker.jpg')",
+                        'background-size': '100%'
+                    })
+                    .appendTo("#game");
+            }
+
+        var randomList = [];
+        function getRan(){
+            while(randomList.length < 6){
+                var random = Math.floor(Math.random() * 6);
+                if (randomList.indexOf(random) == -1) {
+                    randomList.push(random);
+                }
+            }
+        }
+        getRan();
+
+        var cardList={
+            0: "url('images/clubK.jpg')",
+            1: "url('images/clubK.jpg')",
+            2: "url('images/heartJ.jpg')",
+            3: "url('images/heartJ.jpg')",
+            4: "url('images/diamondQ.png')",
+            5: "url('images/diamondQ.png')"
+        };
+        var count = 0;
+        var firstclick = null;
+
+        $game.on('click','.card',function () {                
+            var $this = $(this);
+            if ($this.css('background-image') == 'none') {
+                return;
+            }
+            var $index = $('#game div').index($this);
+            console.log($index);
+            if($index == firstclick){
+                return;
+            }
+            count++;
+            if(count>=2){
+                return;
+            }
+            
+            $this.css({ 'background-image': cardList[randomList[$index]]});
+            if(count == 1){
+                firstclick == $index;
+                return;
+            }
+            var setTime =setTimeout(function(){
+                var secondBackground = $this.css('background-image');
+                var firstBackground = $('#game div').eq(firstclick).css('background-image');
+                if( secondBackground == firstBackground){
+                    $this.css('background-image', 'none');
+                    $('#game div').eq(firstclick).css('background-image', 'none');
+                }
+                clean();
+                count = 0;
+                firstclick = null;
+
+            },1000);
+        });
+
+        function clean(){
+            var $card = $('.card');
+            for(var i=0;i<card.length;i++){
+                if($($card[i]).css('background-image')!="none"){
+                    $($card[i]).css({
+                        "background-image":"url('images/poker.jpg')"
+                    });
+                }
+            }
+        }
+
+        
+        
+
+    </script>
+</body>
+</html>

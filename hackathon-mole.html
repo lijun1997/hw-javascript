@@ -97,23 +97,7 @@
 <body>    
     <div id="game">        
         <div id="playground">
-            <!-- <table> -->
-                <!-- <tr>
-                    <td><div class="mole" id="i1"></div></td>
-                    <td><div class="mole" id="i2"></div></td>
-                    <td><div class="mole" id="i3"></div></td>
-                </tr>
-                <tr>
-                    <td><div class="mole" id="i4"></div></td>
-                    <td><div class="mole" id="i5"></div></td>
-                    <td><div class="mole" id="i6"></div></td>
-                </tr>
-                <tr>
-                    <td><div class="mole" id="i7"></div></td>
-                    <td><div class="mole" id="i8"></div></td>
-                    <td><div class="mole" id="i9"></div></td>
-                </tr> -->
-            <!-- </table> -->
+            
         </div>       
 
         <div id="score">
@@ -180,10 +164,17 @@
 
             var $playground = $("#playground");
 
-            $playground.on("click", ".mole", function () {
-                // 打地鼠事件
-                var $this=$(this);
+            $playground.on("click", ".mole", function () {                
+                var $this=$(this);// 打地鼠事件
 
+                if ($this.is(".active")) {
+                    score += 10;
+                    updateScore();
+
+                    $this
+                        .removeClass("active")
+                        .addClass("hit");
+                }
             });
 
             $("#sizing").change(function () {
@@ -217,16 +208,13 @@
                                 .appendTo($tr);
                    }
                    $tr.appendTo($table);
-                }      
-
+                }
                 $table
-                    .appendTo($playground);
-                    // .css({
-                    //     marginTop: -1 * ($table.outerHeight() / 2),
-                    //     marginLeft: -1 * ($table.outerWidth() / 2)
-                    // });
-
-                  
+                    .appendTo($playground)
+                    .css({
+                        marginTop: -1 * ($table.outerHeight() / 2),
+                        marginLeft: -1 * ($table.outerWidth() / 2)
+                    });
             }
 
             function startGame() {
@@ -246,10 +234,22 @@
 
             function getLevelProfile() {
                 // 取得目前等級參數
+                var levelProfile = levelProfiles[0];
+
+                for (var i = 0; i < levelProfiles.length; i++) {
+                    if (score >= levelProfiles[i].score) {
+                        levelProfile = levelProfiles[i];
+                    }
+                    else {
+                        break;
+                    }
+                }
+                return levelProfile;
             }
 
             function updateScore() {
                 // 更新成績
+                $("#current-score").text(score);
             }
 
             function updateLife() {
@@ -258,11 +258,11 @@
 
             function nextMole() {
                 // 🐭 下一隻地鼠
-                var n = 0;
-                n += Math.floor(Math.random() * 9) + 1;
-                $mole.eq(next).addClass("active");
+                var $mole = $playground.find(".mole"),
+                levelProfile = getLevelProfile();
 
-                console.log(n);
+                
+
             }
 
             createPlayground(3);

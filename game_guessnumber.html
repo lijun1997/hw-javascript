@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>猜!</title>
+</head>
+
+<body>
+    <div class="top">
+        <div class="container">            
+            <div class="btn-group m-4" style="width:95%;" role="group" aria-label="Basic example">
+                <button type="button" id="start" class="btn btn-secondary" onclick="startGame()">開始</button>
+                <button type="button" id="restart" class="btn btn-secondary" onclick="abortGame()">放棄重來</button>
+                <button type="button" id="cheat" class="btn btn-secondary" onclick="showAnswer()">看答案</button>
+            </div>
+        </div>
+    </div>
+    <div class="body">
+        <div class="container d-flex justify-content-center">           
+            <div class="leftbody m-4" style="width: 100%;">
+                <div class="card" style="width: 100%;">
+                    <div class="card-header">
+                        Answer
+                    </div>
+                    <ul class="list-group list-group-flush" id="guessResults">
+                        <li class="list-group-item">
+                            <span class="label label-danger">0A1B</span>1234
+                        </li>                        
+                    </ul>
+                </div>
+            </div>
+            <div class="rightbody m-4" style="width: 100%;">
+                <div class="input-group">                    
+                    <input id="userGuess" type="text" name="" class="form-control" value="" required="required">
+                    <span class="input-group-btn">
+                        <a id="guess" type="button" class="btn btn-success" onclick="goGuess()">猜!</a>
+                    </span>
+                </div>                
+            </div>
+                       
+        </div>
+    </div>
+
+    <script>
+        var answer = "";
+            function startGame() {
+                document.getElementById("guessResults").innerHTML = "";
+                document.getElementById("userGuess").value = "";
+                answer = "";
+                while (answer.length < 4) {
+                    var a = Math.floor(Math.random() * 10);
+                    if (answer.indexOf(a) == -1) {
+                        answer += a;
+                    }
+                }
+            }
+            function abortGame() {
+                if (confirm("確定放棄嗎?")) {
+                    startGame();
+                }
+            }
+            function showAnswer() {
+                alert(answer);
+                if (confirm("重新開始?")) {
+                    startGame();
+                }
+            }
+            function goGuess() {
+                var userGuess = document.getElementById("userGuess");
+                var thisRoundAsnwer = userGuess.value;
+                if (thisRoundAsnwer.length != 4) {
+                    alert("輸入錯誤");
+                    return;
+                }
+                if (isNaN(thisRoundAsnwer)) {
+                    alert("請輸入數字型態");
+                    return;
+                }
+                var existed = "";
+                var a = 0;
+                var b = 0;
+                for (var i = 0; i < 4; i++) {
+                    var number = thisRoundAsnwer.charAt(i);
+                    if (existed.indexOf(number) != -1) {
+                        alert("請輸入不重複之數值");
+                        return;
+                    }
+                    existed += number;
+                    if (answer.indexOf(number) == i) {
+                        a = a + 1;
+                    }
+                    if (answer.includes(number) == true) {
+                        b = b + 1;
+                    }
+                }
+                c = b - a;
+                var ab = a + "A" + c + "B";
+
+                var target = document.getElementById("guessResults");
+                var newNode = document.createElement("span");
+                newNode.classList = "list-group-item";
+                if (a == 4) {
+                    newNode.innerHTML = "<button type='button' class='btn btn-success'>" + ab + "</button>" + "    " + thisRoundAsnwer;
+                    target.appendChild(newNode);
+                    if (confirm("恭喜猜對，要再來一局嗎??")) {
+                        startGame();
+                    }
+
+                } else {
+                    newNode.innerHTML = "<button type='button' class='btn btn-danger'>" + ab + "</button>" + "    " + thisRoundAsnwer;
+                    target.appendChild(newNode);
+                }
+            }
+            startGame();
+            document.getElementById("userGuess").onkeyup = function (event) {
+                if (event.keyCode == 13) {
+                    goGuess();
+                }
+            }
+    </script>
+    
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
